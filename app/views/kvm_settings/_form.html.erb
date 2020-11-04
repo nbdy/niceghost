@@ -1,0 +1,32 @@
+<%= form_with(model: kvm_setting, local: true) do |form| %>
+  <% if kvm_setting.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(kvm_setting.errors.count, "error") %> prohibited this kvm_setting from being saved:</h2>
+
+      <ul>
+        <% kvm_setting.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :hypervisor_uri %>
+    <%= form.text_field :hypervisor_uri %>
+  </div>
+
+  <div class="field">
+    <%= form.label :update_interval %>
+    <%= form.number_field :update_interval %>
+  </div>
+
+  <div class="field">
+    <%= form.label :vm_path %>
+    <%= form.text_field :vm_path %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

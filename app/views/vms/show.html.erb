@@ -1,0 +1,24 @@
+<%= render :template =>  'layouts/navbar' %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @vm.name %>
+</p>
+
+<p>
+  <strong>Cpu count:</strong>
+  <%= @vm.cpu_count %>
+</p>
+
+<p>
+  <strong>Memory:</strong>
+  <%= @vm.memory %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @vm.state %>
+</p>
+
+<%= link_to 'Edit', edit_vm_path(@vm) %> |
+<%= link_to 'Back', vms_path %>

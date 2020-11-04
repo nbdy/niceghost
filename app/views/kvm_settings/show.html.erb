@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Hypervisor uri:</strong>
+  <%= @kvm_setting.hypervisor_uri %>
+</p>
+
+<p>
+  <strong>Update interval:</strong>
+  <%= @kvm_setting.update_interval %>
+</p>
+
+<p>
+  <strong>Vm path:</strong>
+  <%= @kvm_setting.vm_path %>
+</p>
+
+<%= link_to 'Edit', edit_kvm_setting_path(@kvm_setting) %> |
+<%= link_to 'Back', kvm_settings_path %>

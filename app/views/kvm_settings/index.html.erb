@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Kvm Settings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Hypervisor uri</th>
+      <th>Update interval</th>
+      <th>Vm path</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @kvm_settings.each do |kvm_setting| %>
+      <tr>
+        <td><%= kvm_setting.hypervisor_uri %></td>
+        <td><%= kvm_setting.update_interval %></td>
+        <td><%= kvm_setting.vm_path %></td>
+        <td><%= link_to 'Show', kvm_setting %></td>
+        <td><%= link_to 'Edit', edit_kvm_setting_path(kvm_setting) %></td>
+        <td><%= link_to 'Destroy', kvm_setting, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Kvm Setting', new_kvm_setting_path %>

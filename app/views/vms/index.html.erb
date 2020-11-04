@@ -1,0 +1,51 @@
+<%= render :template => 'layouts/navbar' %>
+
+<div class="container">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <%= column_chart Vm.group(:memory).count, width: "300px" %>
+      </div>
+      <div class="col">
+        <%= pie_chart Vm.group(:state).count, width: "300px" %>
+      </div>
+      <div class="col">
+        <%= pie_chart Vm.group(:cpu_count).count, width: "300px" %>
+      </div>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+    <tr>
+      <% Vm.column_names.each do |key| %>
+        <th><%= key %></th>
+      <% end %>
+      <th>upload</th>
+      <th>control</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @vms.each do |vm| %>
+      <tr>
+        <% Vm.column_names.each do |key| %>
+          <td><%= vm[key] %><%= key == "memory" ? " MB" : "" %></td>
+        <% end %>
+
+        <td><a class="btn btn-outline-secondary" onclick="$('#upload-modal').modal('show');">&#8682;</a></td>
+        <td>
+          <div class="dropdown" id="controlDropdown<%= vm.name %>">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="controlDropdownMenu<%= vm.name %>" data-target="#controlDropdown<%= vm.name %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">&#9881;</button>
+            <div class="dropdown-menu" aria-labelledby="controlDropdownMenu<%= vm.name %>">
+              <%= link_to "Start", { controller: :control, action: :start, remote: true, name: vm.name }, method: :get, data: { confirm: "Start vm '#{vm.name}'?" }, :class => "dropdown-item#{vm.state == "active" ? " disabled" : ""}" %>
+              <%= link_to "Stop", { controller: :control, action: :stop, remote: true, name: vm.name }, method: :get, data: { confirm: "Stop vm '#{vm.name}'?" }, :class => "dropdown-item#{vm.state == "inactive" ? " disabled" : ""}" %>
+              <%= link_to "Restart", { controller: :control, action: :restart, remote: true, name: vm.name }, method: :get, data: { confirm: "Restart vm '#{vm.name}'?" }, :class => "dropdown-item" %>
+              <%= link_to "Configure", { controller: :control, action: :configure, remote: true, name: vm.name }, method: :get, data: { confirm: "Configure vm '#{vm.name}'?" }, :class => "dropdown-item" %>
+            </div>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
