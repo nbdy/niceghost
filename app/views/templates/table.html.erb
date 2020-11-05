@@ -1,0 +1,33 @@
+<table class="table">
+  <thead>
+  <tr>
+    <% cls.column_names.each do |key| %>
+      <th><%= key %></th>
+    <% end %>
+    <th>upload</th>
+    <th>control</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% dataList.each do |data| %>
+  <% data.becomes cls %>
+    <tr>
+      <% cls.column_names.each do |key| %>
+        <td><%= data[key] %><%= key == "memory" ? " MB" : "" %></td>
+      <% end %>
+      <td><a class="btn btn-outline-secondary" onclick="$('#upload-modal').modal('show');">&#8682;</a></td>
+      <td>
+        <div class="dropdown" id="controlDropdown<%= data.name %>">
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="controlDropdownMenu<%= data.name %>" data-target="#controlDropdown<%= data.name %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">&#9881;</button>
+          <div class="dropdown-menu" aria-labelledby="controlDropdownMenu<%= data.name %>">
+            <% dropdown.each do |btn| %>
+              <% value = data.send(btn[:confirmValueKey]) %>
+              <%= link_to btn[:name], {controller: _controller, action: btn[:action], remote: true, name: value }, method: btn[:method], data: {confirm: btn[:confirmText].sub('{{ VALUE }}', value) }, class: btn[:class] %>
+            <% end %>
+          </div>
+        </div>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

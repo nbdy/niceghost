@@ -14,6 +14,9 @@ so i'm trying to create a new solution
         - [X] start/stop/restart vm
         - [ ] configure vm
         - [ ] upload and execute file
+            - [ ] cuckoo's procmon?
+            - [ ] screenshots
+            - [ ] behavoiral analysis
     - [ ] KVM Settings
         - [ ] Change them
 
