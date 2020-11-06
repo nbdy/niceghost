@@ -55,3 +55,5 @@ gem 'chartkick'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'virtually', git: 'https://github.com/jkraemer/virtually'
 gem 'groupdate'
+
+gem "cable_ready", "~> 4.3"

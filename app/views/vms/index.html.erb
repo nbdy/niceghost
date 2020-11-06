@@ -1,11 +1,45 @@
 <%= render :template => 'templates/navbar' %>
 
-<!-- todo possibility for disabled in dropdown-->
+<div id="vm-modal" class="modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="upload-modal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Upload and run file</h3>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="uploadModal">File to upload and run</label>
+            <input type="file" class="form-control-file" id="uploadModal">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="container">
-  <%= render :template =>  'templates/table', locals: {cls: Vm, dataList: @vms, _controller: :control, dropdown: [
-      { name: "Start", action: :start, method: :get, confirmText: "Start vm '{{ VALUE }}'?", confirmValueKey: 'name', class: "dropdown-item"},
-      { name: "Stop", action: :stop, method: :get, confirmText: "Stop vm '{{ VALUE }}'?", confirmValueKey: 'name', class: "dropdown-item" },
-      { name: "Restart", action: :restart, method: :get, confirmText: "Restart vm '{{ VALUE }}'?", confirmValueKey: 'name', class: "dropdown-item" },
-      { name: "Configure", action: :configure, method: :get, confirmText: "Configure vm '{{ VALUE }}'?", confirmValueKey: 'name', class: "dropdown-item" }
+  <%= render :template => 'templates/search', locals: {cls: Vm, searchPath: "/vms/search" } %>
+
+  <%= render :template =>  'templates/table', locals: {cls: Vm, dataList: @vms, _controller: :control, dropdowns: [
+      { name: "control", text: "&#9881;".html_safe, control: [
+      { name: "Start", action: :start, method: :get, confirmText: "Start vm '{{ VALUE }}'?", valueKey: 'name', class: "dropdown-item", disabledKey: "state", disabledValue: "active" },
+      { name: "Stop", action: :stop, method: :get, confirmText: "Stop vm '{{ VALUE }}'?", valueKey: 'name', class: "dropdown-item", disabledKey: "state", disabledValue: "inactive" },
+      { name: "Restart", action: :restart, method: :get, confirmText: "Restart vm '{{ VALUE }}'?", valueKey: 'name', class: "dropdown-item" },
+      { name: "Configure", action: :configure, method: :get, confirmText: "Configure vm '{{ VALUE }}'?", valueKey: 'name', class: "dropdown-item" }]}
+  ], aList: [
+      { label: "upload", text: "&#8682;".html_safe, onclick: "$('#upload-modal').modal('show')", class: "btn btn-outline-secondary" }
+  ], columnAppenders: [
+      { text: "MB", on: "memory"}
   ]} %>
 </div>

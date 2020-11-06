@@ -1,6 +1,14 @@
 class VmsController < ApplicationController
   before_action :set_vm, only: [:show, :edit, :update, :destroy]
 
+  def search
+    @vms = if params[:search].empty?
+             Vm.all
+           else
+             Vm.where("#{Vm.connection.quote_table_name(Vm.table_name)}.#{Vm.connection.quote_column_name(params[:key])} = ?", params[:search])
+           end
+  end
+
   # GET /vms
   # GET /vms.json
   def index
@@ -63,12 +71,12 @@ class VmsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_vm
-      @vm = Vm.find(params[:id])
-    end
+  def set_vm
+    @vm = Vm.find(params[:id])
+  end
 
     # Only allow a list of trusted parameters through.
-    def vm_params
-      params.require(:vm).permit(:name, :cpu_count, :memory, :state)
-    end
+  def vm_params
+    params.require(:vm).permit(:name, :cpu_count, :memory, :state)
+  end
 end

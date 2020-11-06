@@ -1,0 +1,11 @@
+<%= form_tag searchPath, method: :get do -%>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <%= submit_tag "Search", 'data-disable-with' => "Searching..", class: "btn btn-primary"%>
+    </div>
+    <%= search_field_tag :search, params[:search], placeholder: "Search", class: "form-control" %>
+    <div class="input-group-append">
+      <%= select_tag "key", options_for_select(cls.column_names), class: "custom-select"%>
+    </div>
+  </div>
+<% end -%>

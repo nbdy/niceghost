@@ -4,8 +4,12 @@
     <% cls.column_names.each do |key| %>
       <th><%= key %></th>
     <% end %>
-    <th>upload</th>
-    <th>control</th>
+    <% aList.each do |a| %>
+      <th><%= a[:label] %></th>
+    <% end %>
+    <% dropdowns.each do |d| %>
+      <th><%= d[:name] %></th>
+    <% end %>
   </tr>
   </thead>
   <tbody>
@@ -13,20 +17,36 @@
   <% data.becomes cls %>
     <tr>
       <% cls.column_names.each do |key| %>
-        <td><%= data[key] %><%= key == "memory" ? " MB" : "" %></td>
+        <td>
+          <%= data[key] %>
+          <% app = columnAppenders.select {|a| a[:on] == key} %>
+          <%= app.length > 0 ? app[0][:text] : "" %>
+        </td>
       <% end %>
-      <td><a class="btn btn-outline-secondary" onclick="$('#upload-modal').modal('show');">&#8682;</a></td>
+      <% aList.each do |a| %>
+        <td><a class="<%= a[:class] %>" onclick="<%= a[:onclick] %>"><%= a[:text] %></a></td>
+      <% end %>
+      <% dropdowns.each do |d| %>
       <td>
         <div class="dropdown" id="controlDropdown<%= data.name %>">
-          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="controlDropdownMenu<%= data.name %>" data-target="#controlDropdown<%= data.name %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">&#9881;</button>
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="controlDropdownMenu<%= data.name %>" data-target="#controlDropdown<%= data.name %>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><%= d[:text] %></button>
           <div class="dropdown-menu" aria-labelledby="controlDropdownMenu<%= data.name %>">
-            <% dropdown.each do |btn| %>
-              <% value = data.send(btn[:confirmValueKey]) %>
-              <%= link_to btn[:name], {controller: _controller, action: btn[:action], remote: true, name: value }, method: btn[:method], data: {confirm: btn[:confirmText].sub('{{ VALUE }}', value) }, class: btn[:class] %>
+            <% d[:control].each do |btn| %>
+              <% if btn[:disabledKey] %>
+              <% disabled = data.send(btn[:disabledKey]) == btn[:disabledValue] %>
+              <% else %>
+                <% disabled = false %>
+              <% end %>
+              <% value = data.send(btn[:valueKey]) %>
+              <% if btn[:confirmText] %>
+
+              <% end %>
+              <%= link_to btn[:name], {controller: _controller, action: btn[:action], remote: true, name: value }, method: btn[:method], data: {confirm: btn[:confirmText].sub('{{ VALUE }}', value) }, class: btn[:class] + " #{disabled ? "disabled": ""}" %>
             <% end %>
           </div>
         </div>
       </td>
+      <% end %>
     </tr>
   <% end %>
   </tbody>
