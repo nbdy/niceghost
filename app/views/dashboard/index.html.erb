@@ -1,0 +1,10 @@
+<%= render template: 'templates/navbar' %>
+
+<div class="container">
+  <h2>VM states</h2>
+  <%= pie_chart Vm.group(:state).count %>
+  <h2>Memory distribution</h2>
+  <%= column_chart Vm.group(:memory).count %>
+  <h2>CPU core distribution</h2>
+  <%= pie_chart Vm.group(:cpu_count).count %>
+</div>
